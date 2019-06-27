@@ -1,0 +1,12 @@
+
+[dev]
+flake8
+flake8-commas
+flake8-isort
+flake8-quotes
+isort>=4.3.15
+
+[test]
+pytest-cov
+pytest-random-order
+pytest-xdist

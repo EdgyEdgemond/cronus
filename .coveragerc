@@ -1,0 +1,8 @@
+[run]
+branch = false
+omit = cronus/__init__.py
+[report]
+sort = cover
+fail_under = 100
+show_missing = true
+skip_covered = true
