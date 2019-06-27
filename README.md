@@ -22,6 +22,19 @@ $ pytest
 Usage
 -----
 
+```bash
+usage: cronparse [-h] crontab command
+
+Parse and render a crontab
+
+positional arguments:
+  crontab     crontab to parse
+  command     command to run
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
 The `'`s in the command line are important to prevent any `*`s converting to
 the contents of the current directory.
 
