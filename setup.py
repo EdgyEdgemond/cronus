@@ -20,7 +20,7 @@ setuptools.setup(
     license="Apache Software License 2.0",
     url="https://github.com/EdgyEdgemond/cronus",
     description="A crontab parser",
-    long_description=read("README.rst"),
+    long_description=read("README.md"),
     packages=setuptools.find_packages(include=("cronus*",)),
     python_requires=">=3.6",
     install_requires=[],
@@ -35,6 +35,9 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
     ],
     entry_points={
+        "console_scripts": [
+            "cronparse=cronus.cmd:main",
+        ],
     },
     extras_require={
         "dev": (

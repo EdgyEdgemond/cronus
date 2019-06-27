@@ -74,8 +74,3 @@ def extract_range(piece, has_step, is_range, one_index, min_range, max_range):
             start, stop = int(start) - 1, int(stop) - 1
 
     return int(start), int(stop)
-
-
-parser = CronParser("*/15 0 1,15 * 1-5", "/usr/bin/find")
-parser.parse()
-parser.render()

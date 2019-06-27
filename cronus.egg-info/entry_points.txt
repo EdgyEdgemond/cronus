@@ -1,0 +1,3 @@
+[console_scripts]
+cronparse = cronus.cmd:main
+
