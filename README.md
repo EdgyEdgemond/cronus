@@ -3,6 +3,21 @@ Cronus
 
 A crontab parser that renders the result to a simple table.
 
+Installation
+------------
+
+Clone this repo and then run the following from the new directory:
+
+```bash
+$ pip install -e .
+```
+
+To run tests:
+
+```bash
+$ pip install -e .[test]
+$ pytest
+```
 
 Usage
 -----
