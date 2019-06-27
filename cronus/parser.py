@@ -3,7 +3,7 @@ section_config = [
     ("hour", 0, 23),  # hours allowed values
     ("day of month", 0, 30, True),  # day of month allowed values
     ("month", 0, 11, True),  # month allowed values
-    ("day_of_week", 0, 6),  # day of week allowed values
+    ("day of week", 0, 6),  # day of week allowed values
 ]
 
 
@@ -24,7 +24,7 @@ class CronParser:
 
     def render(self):
         for config in section_config:
-            print(config[0].ljust(15), " ".join([str(v) for v in self._parsed_values[config[0]]]))
+            print(config[0].ljust(15), " ".join([str(v) for v in sorted(self._parsed_values[config[0]])]))
         print("command".ljust(15), self._command)
 
 
