@@ -7,11 +7,11 @@ A crontab parser that renders the result to a simple table.
 Usage
 -----
 
-The `'` in the command line are important to prevent any `*`'s converting to
+The `'`s in the command line are important to prevent any `*`s converting to
 the contents of the current directory.
 
 ```bash
-$ cronparse '*/15 0 1,15 * 1-5 /usr/bin/find'
+$ cronparse '*/15 0 1,15 * 1-5' /usr/bin/find
 minute          0 45 30 15
 hour            0
 day of month    1 15
