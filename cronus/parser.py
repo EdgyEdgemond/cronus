@@ -66,11 +66,16 @@ def extract_range(piece, has_step, is_range, one_index, min_range, max_range):
     elif piece == "*":
         start, stop = min_range, max_range
     else:
-        start = piece
-        stop = piece
+        start = int(piece)
+        if one_index:
+            start -= 1
+        stop = start
         if has_step:
             stop = max_range
-        if one_index:
-            start, stop = int(start) - 1, int(stop) - 1
 
-    return int(start), int(stop)
+    start, stop = int(start), int(stop)
+
+    if start > max_range or start < min_range or stop > max_range or stop < min_range:
+        raise SyntaxError("Invalid value {}".format(piece))
+
+    return start, stop
