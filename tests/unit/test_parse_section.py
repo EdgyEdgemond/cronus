@@ -47,4 +47,4 @@ def test_parse_section_range(monkeypatch):
 
 
 def test_parse_section():
-    assert parse_section("1-8/2", 0, 10, False) == {2, 4, 6, 8}
+    assert parse_section("1,15-17,*/10", 0, 30, True) == {1, 11, 15, 16, 17, 21, 31}
