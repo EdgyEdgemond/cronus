@@ -72,12 +72,35 @@ def test_parser_parse_replaces_month_strings_with_number_representation(monkeypa
     ]
 
 
+def test_parser_parse_replaces_first_instance_of_month_strings_with_number_representation(monkeypatch):
+    monkeypatch.setattr(cronus.parser, "parse_section", mock.Mock())
+
+    parser = CronParser("1 2 3 JANJAN 5", "command")
+    parser.parse()
+
+    assert cronus.parser.parse_section.call_args_list == [
+        mock.call("1", 0, 59),
+        mock.call("2", 0, 23),
+        mock.call("3", 0, 30, True),
+        mock.call("1JAN", 0, 11, True),
+        mock.call("5", 0, 6),
+    ]
+
+
 def test_parser_parse_raises_on_invalid_crontab(monkeypatch):
     parser = CronParser("1 2 3 4 5 6", "command")
     with pytest.raises(SyntaxError) as exc:
         parser.parse()
 
     assert str(exc.value) == "Invalid crontab"
+
+
+def test_parser_parse_with_invalid_strings_raises_syntax_error():
+    parser = CronParser("*/15 0 1,15 * MONMON", "/usr/bin/find")
+    with pytest.raises(SyntaxError) as exc:
+        parser.parse()
+
+    assert str(exc.value) == "Invalid range"
 
 
 def test_parser_render():

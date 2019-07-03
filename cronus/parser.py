@@ -24,10 +24,10 @@ class CronParser:
     def parse(self):
         crontab = self._crontab
         for day, i in weekday_conv.items():
-            crontab = crontab.replace(day, str(i))
+            crontab = crontab.replace(day, str(i), 1)
 
         for month, i in month_conv.items():
-            crontab = crontab.replace(month, str(i))
+            crontab = crontab.replace(month, str(i), 1)
 
         sections = crontab.split()
         if len(sections) != 5:
@@ -49,7 +49,10 @@ def parse_section(section, min_range, max_range, one_index=False):
     for piece in pieces:
         piece, step, has_step, is_range = parse_piece(piece)
 
-        start, stop = extract_range(piece, has_step, is_range, one_index, min_range, max_range)
+        try:
+            start, stop = extract_range(piece, has_step, is_range, one_index, min_range, max_range)
+        except ValueError as exc:
+            raise SyntaxError("Invalid range") from exc
 
         for i in range(start, stop + 1):
             if step is None or i % step == 0:
