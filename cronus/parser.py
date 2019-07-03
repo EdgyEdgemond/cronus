@@ -7,6 +7,14 @@ section_config = [
 ]
 
 
+weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
+months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+
+
+weekday_conv = {d: i for i, d in enumerate(weekdays)}
+month_conv = {m: i + 1 for i, m in enumerate(months)}
+
+
 class CronParser:
     def __init__(self, crontab, command):
         self._crontab = crontab
@@ -14,7 +22,14 @@ class CronParser:
         self._parsed_values = {}
 
     def parse(self):
-        sections = self._crontab.split()
+        crontab = self._crontab
+        for day, i in weekday_conv.items():
+            crontab = crontab.replace(day, str(i))
+
+        for month, i in month_conv.items():
+            crontab = crontab.replace(month, str(i))
+
+        sections = crontab.split()
         if len(sections) != 5:
             raise SyntaxError("Invalid crontab")
 
