@@ -155,3 +155,21 @@ def test_parser_render_example_with_strings():
         "day of week     1 2 3 4 5",
         "command         /usr/bin/find",
     ]
+
+
+def test_parser_render_with_wrapped_range():
+    mock_stdout = io.StringIO()
+
+    parser = CronParser("*/15 0 20-3/2 * 1-5", "/usr/bin/find")
+    parser.parse()
+    with mock.patch("sys.stdout", mock_stdout):
+        parser.render()
+
+    assert mock_stdout.getvalue().split("\n")[:-1] == [
+        "minute          0 15 30 45",
+        "hour            0",
+        "day of month    1 3 21 23 25 27 29 31",
+        "month           1 2 3 4 5 6 7 8 9 10 11 12",
+        "day of week     1 2 3 4 5",
+        "command         /usr/bin/find",
+    ]
