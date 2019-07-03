@@ -50,16 +50,17 @@ def parse_section(section, min_range, max_range, one_index=False):
         piece, step, has_step, is_range = parse_piece(piece)
 
         try:
-            start, stop = extract_range(piece, has_step, is_range, one_index, min_range, max_range)
+            ranges = extract_ranges(piece, has_step, is_range, one_index, min_range, max_range)
         except ValueError as exc:
             raise SyntaxError("Invalid range") from exc
 
-        for i in range(start, stop + 1):
-            if step is None or i % step == 0:
-                if one_index:
-                    values.add(i + 1)
-                else:
-                    values.add(i)
+        for r in ranges:
+            for i in range(r[0], r[1] + 1):
+                if step is None or i % step == 0:
+                    if one_index:
+                        values.add(i + 1)
+                    else:
+                        values.add(i)
 
     return values
 
@@ -75,7 +76,7 @@ def parse_piece(piece):
     return piece, step, has_step, is_range
 
 
-def extract_range(piece, has_step, is_range, one_index, min_range, max_range):
+def extract_ranges(piece, has_step, is_range, one_index, min_range, max_range):
     start, stop = 0, 0
     if is_range:
         start, stop = piece.split("-")
@@ -93,7 +94,16 @@ def extract_range(piece, has_step, is_range, one_index, min_range, max_range):
 
     start, stop = int(start), int(stop)
 
-    if start > max_range or start < min_range or stop > max_range or stop < min_range:
-        raise SyntaxError("Invalid value {}".format(piece))
+    ranges = []
 
-    return start, stop
+    if start > stop:
+        ranges.extend([(min_range, stop), (start, max_range)])
+    else:
+        ranges.append((start, stop))
+
+    for r in ranges:
+        start, stop = r
+        if start > max_range or start < min_range or stop > max_range or stop < min_range:
+            raise SyntaxError("Invalid value {}".format(piece))
+
+    return ranges
